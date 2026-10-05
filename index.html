@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Demo Search</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: #202124;
+      background: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header { display: flex; justify-content: flex-end; gap: 16px; padding: 16px 24px; font-size: 14px; }
+    header a { color: #3c4043; text-decoration: none; }
+    header a:hover { text-decoration: underline; }
+    main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 0 16px; margin-top: 8vh; }
+    .logo { font-size: 64px; font-weight: 700; letter-spacing: -2px; margin-bottom: 28px; }
+    .logo span:nth-child(1) { color: #4285f4; }
+    .logo span:nth-child(2) { color: #0b8043; }
+    .logo span:nth-child(3) { color: #f4b400; }
+    .logo span:nth-child(4) { color: #db4437; }
+    form { width: 100%; max-width: 584px; }
+    .box {
+      display: flex; align-items: center; width: 100%;
+      border: 1px solid #dfe1e5; border-radius: 24px; padding: 10px 18px;
+    }
+    .box:hover, .box:focus-within { box-shadow: 0 1px 6px rgba(32,33,36,.28); border-color: transparent; }
+    .box input { flex: 1; border: 0; outline: 0; font-size: 16px; margin-left: 12px; }
+    .buttons { display: flex; justify-content: center; gap: 12px; margin-top: 28px; }
+    button {
+      background: #f8f9fa; border: 1px solid #f8f9fa; border-radius: 4px;
+      color: #3c4043; font-size: 14px; padding: 10px 16px; cursor: pointer;
+    }
+    button:hover { border-color: #dadce0; box-shadow: 0 1px 1px rgba(0,0,0,.1); }
+    #results { width: 100%; max-width: 652px; margin-top: 32px; }
+    .result { margin-bottom: 24px; }
+    .result a { color: #1a0dab; font-size: 20px; text-decoration: none; }
+    .result a:hover { text-decoration: underline; }
+    .result .url { color: #006621; font-size: 14px; }
+    .result p { margin: 4px 0 0; color: #4d5156; font-size: 14px; line-height: 1.5; }
+    footer { background: #f2f2f2; color: #70757a; font-size: 14px; padding: 14px 24px; }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="#">About</a>
+    <a href="#">Help</a>
+    <a href="#">Contact</a>
+  </header>
+
+  <main>
+    <div class="logo" aria-label="Demo Search">
+      <span>D</span><span>e</span><span>m</span><span>o</span>
+      Search
+    </div>
+
+    <form id="search-form">
+      <div class="box">
+        <span aria-hidden="true">&#128269;</span>
+        <input id="q" type="text" placeholder="Search the demo site" autocomplete="off" autofocus>
+      </div>
+      <div class="buttons">
+        <button type="submit">Demo Search</button>
+        <button type="button" id="lucky">I'm Feeling Curious</button>
+      </div>
+    </form>
+
+    <section id="results" aria-live="polite"></section>
+  </main>
+
+  <footer>Dummy page for testing an Agentforce Embedded Messaging deployment. Not a real search engine.</footer>
+
+  <script>
+    // Dummy search: shows fake results only.
+    const form = document.getElementById('search-form');
+    const input = document.getElementById('q');
+    const results = document.getElementById('results');
+
+    function esc(s) {
+      return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    }
+
+    function show(query) {
+      if (!query.trim()) { results.innerHTML = ''; return; }
+      const q = esc(query.trim());
+      results.innerHTML = [1, 2, 3].map(n => `
+        <div class="result">
+          <div class="url">https://example.com/result-${n}</div>
+          <a href="#">${q} - Sample result ${n}</a>
+          <p>This is a dummy result for "${q}". Use the chat widget to try the Agentforce agent.</p>
+        </div>`).join('');
+    }
+
+    form.addEventListener('submit', e => { e.preventDefault(); show(input.value); });
+    document.getElementById('lucky').addEventListener('click', () => {
+      input.value = 'Salesforce Agentforce';
+      show(input.value);
+    });
+  </script>
+
+  <!-- ===== PASTE YOUR AGENTFORCE / EMBEDDED MESSAGING CODE SNIPPET BELOW ===== -->
+  <!--
+  Salesforce Setup > Embedded Service Deployments > your deployment > Install Code Snippet.
+  Copy the <script> block(s) and paste them here, just before </body>.
+  -->
+  <!-- ========================================================================= -->
+</body>
+</html>
